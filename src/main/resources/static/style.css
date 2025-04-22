@@ -1,0 +1,205 @@
+/* ========== BASE STYLING ========== */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.input-section {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* ========== FORM FIELDS ========== */
+label {
+  font-weight: bold;
+  margin-top: 15px;
+  display: block;
+  color: #333;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+/* ========== BUTTONS ========== */
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.product-row button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.product-row button:hover {
+  background-color: #c82333;
+}
+
+/* ========== PRODUCT INPUT LAYOUT ========== */
+#products {
+  margin-bottom: 20px;
+}
+
+.product-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.product-row input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* ========== QUOTATION OUTPUT ========== */
+#quotationOutput {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white;
+  font-size: 14px;
+  color: black;
+  box-sizing: border-box;
+}
+
+.quotation-output table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.quotation-output th,
+.quotation-output td {
+  border: 1px solid #000;
+  padding: 6px;
+  text-align: left;
+}
+
+.details-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.left-details,
+.right-details {
+  width: 35%;
+}
+
+.right-details div {
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.terms {
+  margin-top: 30px;
+  line-height: 1;
+  page-break-inside: avoid;
+}
+
+/* ========== PRINT OPTIMIZATION ========== */
+@media print {
+  body {
+    padding: 0;
+    background: white;
+  }
+
+  .input-section {
+    display: none;
+  }
+
+  #quotationOutput {
+    box-shadow: none;
+  }
+
+  .quotation-output table {
+    width: 100%;
+    border-collapse: collapse;
+    page-break-inside: auto;
+  }
+
+  .quotation-output thead {
+    display: table-header-group; /* ensure headers repeat */
+  }
+
+  .quotation-output tr {
+    display: block;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .quotation-output td,
+  .quotation-output th {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .terms {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
+/* ========== MOBILE RESPONSIVENESS ========== */
+@media (max-width: 600px) {
+  .input-section {
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+  }
+
+  input,
+  textarea,
+  button {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .product-row input,
+  .product-row button {
+    width: 100%;
+  }
+
+  .left-details,
+  .right-details {
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
