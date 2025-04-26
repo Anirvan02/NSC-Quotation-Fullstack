@@ -52,4 +52,14 @@ public class NscController {
         repository.resetAutoIncrement(); // optional: handled in custom implementation
         return Map.of("message", "All quotations deleted and ID reset to 1");
     }
+
+    // Delete one
+    @DeleteMapping("/{id}")
+    public Map<String, String> deleteQuotation(@PathVariable Long id) {
+        if (!repository.existsById(id)) {
+            throw new NoSuchElementException("Quotation not found");
+        }
+        repository.deleteById(id);
+        return Map.of("message", "Quotation deleted");
+    }
 }
