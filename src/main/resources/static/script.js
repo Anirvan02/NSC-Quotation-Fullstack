@@ -131,8 +131,8 @@ async function generateQuotation() {
     const editId = window.currentEditId || null;
     const method = editId ? "PUT" : "POST";
     const url = editId
-      ? `https://nscqtn25.onrender.com/api/quotations/${editId}`
-      : `https://nscqtn25.onrender.com/api/quotations`;
+      ? `https://nscquotation.onrender.com/api/quotations/${editId}`
+      : `https://nscquotation.onrender.com/api/quotations`;
 
     const response = await fetch(url, {
       method,
@@ -164,7 +164,7 @@ async function loadHistory() {
   container.innerHTML = "";
 
   try {
-    const response = await fetch("https://nscqtn25.onrender.com/api/quotations");
+    const response = await fetch("https://nscquotation.onrender.com/api/quotations");
     const history = await response.json();
 
     if (history.length > 0) {
@@ -211,7 +211,7 @@ async function clearHistory() {
   if (!confirmClear) return;
 
   try {
-    const response = await fetch("https://nscqtn25.onrender.com/api/quotations", {
+    const response = await fetch("https://nscquotation.onrender.com/api/quotations", {
       method: "DELETE",
     });
 
@@ -231,7 +231,7 @@ async function deleteQuotation(id) {
   if (!confirmDelete) return;
 
   try {
-    const response = await fetch(`https://nscqtn25.onrender.com/api/quotations/${id}`, {
+    const response = await fetch(`https://nscquotation.onrender.com/api/quotations/${id}`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error("Failed to delete quotation");
@@ -263,7 +263,7 @@ window.onload = async function () {
 
   if (editId) {
     try {
-      const response = await fetch(`https://nscqtn25.onrender.com/api/quotations/${editId}`);
+      const response = await fetch(`https://nscquotation.onrender.com/api/quotations/${editId}`);
       if (!response.ok) throw new Error("Failed to fetch quotation for editing.");
 
       const q = await response.json();
