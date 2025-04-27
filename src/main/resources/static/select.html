@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NSC Quotation Action</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .access-container {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 25px;
+        font-size: 24px;
+        color: #333;
+      }
+
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .action-buttons button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+      }
+
+      .action-buttons button:hover {
+        background-color: #0056b3;
+      }
+
+      .footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #888;
+      }
+
+      @media (max-width: 600px) {
+        .access-container {
+          padding: 20px;
+          border-radius: 8px;
+          width: 80%;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        .action-buttons button {
+          font-size: 14px;
+        }
+
+        .footer {
+          font-size: 11px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="access-container">
+      <h2>Quotation Action</h2>
+      <div class="action-buttons">
+        <button onclick="location.href='nscform.html'">Create New Quotation</button>
+        <button onclick="location.href='qtnhistory.html'">Edit Existing Quotation</button>
+      </div>
+      <div class="footer">Choose an option to proceed</div>
+    </div>
+  </body>
+</html>

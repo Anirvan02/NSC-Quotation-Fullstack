@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NSC Quotation History</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        margin-top: 20px;
+      }
+
+      .input-section {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+        width: 100%;
+        max-width: 600px; /* Increased width for more room */
+        text-align: center;
+      }
+
+      .history-entry {
+        margin-top: 20px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 8px;
+      }
+
+      .entry-text {
+        flex: 1;
+        text-align: left;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .history-entry button {
+        padding: 10px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .editBtn {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .editBtn:hover {
+        background-color: #0056b3;
+      }
+
+      .deleteBtn {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .deleteBtn:hover {
+        background-color: #c82333;
+      }
+
+      .clearHistoryBtn {
+        background-color: #dc3545;
+        color: white;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+        margin-top: 30px;
+      }
+
+      .clearHistoryBtn:hover {
+        background-color: #c82333;
+      }
+
+      @media (max-width: 768px) {
+        .input-section {
+          padding: 20px;
+          border-radius: 8px;
+          width: 80%;
+        }
+
+        .history-entry {
+          font-size: 14px;
+          flex-direction: column;
+        }
+
+        h2 {
+          font-size: 20px;
+        }
+
+        .button-group {
+          margin-top: 10px;
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .clearHistoryBtn {
+          font-size: 14px;
+        }
+
+        .history-entry button {
+          font-size: 14px;
+          width: 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="input-section">
+      <h2>Quotation History</h2>
+      <div id="historySection" style="margin-top: 40px"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
