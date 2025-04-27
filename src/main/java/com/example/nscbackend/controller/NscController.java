@@ -62,4 +62,10 @@ public class NscController {
         repository.deleteById(id);
         return Map.of("message", "Quotation deleted");
     }
+
+    // Ping endpoint
+    @GetMapping("/ping")
+    public Map<String, String> ping() {
+        return Map.of("message", "Server is awake!");
+    }
 }
