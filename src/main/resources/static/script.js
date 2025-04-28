@@ -5,7 +5,7 @@ async function checkPasskey() {
 
   try {
     const response = await fetch(
-      "http://localhost:8080/api/quotations/passkey?passkey=" +
+      "https://nscquotation.onrender.com/api/quotations/passkey?passkey=" +
         encodeURIComponent(key),
       {
         method: "POST",
