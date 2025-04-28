@@ -124,21 +124,6 @@
       <button onclick="checkPasskey()">Enter</button>
       <div class="footer">Authorized personnel only</div>
     </div>
-
-    <script>
-      function checkPasskey() {
-        const key = document.getElementById("passkey").value;
-        if (key === "nscqtn@2025") {
-          window.location.href = "select.html";
-        } else {
-          alert("Incorrect passkey. Please try again.");
-        }
-      }
-
-      function togglePassword() {
-        const passField = document.getElementById("passkey");
-        passField.type = passField.type === "password" ? "text" : "password";
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>

@@ -1,4 +1,35 @@
 let currentEditIndex = null;
+
+async function checkPasskey() {
+  const key = document.getElementById("passkey").value;
+
+  try {
+    const response = await fetch(
+      "http://localhost:8080/api/quotations/passkey?passkey=" +
+        encodeURIComponent(key),
+      {
+        method: "POST",
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok && data.message === "Passkey is valid") {
+      window.location.href = "select.html";
+    } else {
+      alert("Incorrect passkey. Please try again.");
+    }
+  } catch (err) {
+    console.error("Error validating passkey:", err);
+    alert("There was an error while validating the passkey. Please try again.");
+  }
+}
+
+function togglePassword() {
+  const passField = document.getElementById("passkey");
+  passField.type = passField.type === "password" ? "text" : "password";
+}
+
 function addProduct(product = {}) {
   const { desc = "", unit = "", gst = "", rate = "", brand = "" } = product;
 
@@ -158,13 +189,14 @@ async function generateQuotation() {
   }
 }
 
-
 async function loadHistory() {
   const container = document.getElementById("historySection");
   container.innerHTML = "";
 
   try {
-    const response = await fetch("https://nscquotation.onrender.com/api/quotations");
+    const response = await fetch(
+      "https://nscquotation.onrender.com/api/quotations"
+    );
     const history = await response.json();
 
     if (history.length > 0) {
@@ -173,11 +205,17 @@ async function loadHistory() {
         div.className = "history-entry";
         div.innerHTML = `
           <div class="entry-text">
-            <strong>Quotation No:</strong> NSC/${entry.quotationNo} | <strong>Date:</strong> ${entry.date?.split("T")[0] || ""}
+            <strong>Quotation No:</strong> NSC/${
+              entry.quotationNo
+            } | <strong>Date:</strong> ${entry.date?.split("T")[0] || ""}
           </div>
           <div class="button-group">
-            <button class="editBtn" onclick="editQuotation('${entry.id}')">Edit</button>
-            <button class="deleteBtn" onclick="deleteQuotation('${entry.id}')">Delete</button>
+            <button class="editBtn" onclick="editQuotation('${
+              entry.id
+            }')">Edit</button>
+            <button class="deleteBtn" onclick="deleteQuotation('${
+              entry.id
+            }')">Delete</button>
           </div>
         `;
         container.appendChild(div);
@@ -211,9 +249,12 @@ async function clearHistory() {
   if (!confirmClear) return;
 
   try {
-    const response = await fetch("https://nscquotation.onrender.com/api/quotations", {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      "https://nscquotation.onrender.com/api/quotations",
+      {
+        method: "DELETE",
+      }
+    );
 
     if (!response.ok) throw new Error("Failed to clear history");
     alert("All quotations deleted successfully.");
@@ -231,9 +272,12 @@ async function deleteQuotation(id) {
   if (!confirmDelete) return;
 
   try {
-    const response = await fetch(`https://nscquotation.onrender.com/api/quotations/${id}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `https://nscquotation.onrender.com/api/quotations/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
     if (!response.ok) throw new Error("Failed to delete quotation");
     alert("Quotation deleted successfully.");
     loadHistory();
@@ -263,8 +307,11 @@ window.onload = async function () {
 
   if (editId) {
     try {
-      const response = await fetch(`https://nscquotation.onrender.com/api/quotations/${editId}`);
-      if (!response.ok) throw new Error("Failed to fetch quotation for editing.");
+      const response = await fetch(
+        `https://nscquotation.onrender.com/api/quotations/${editId}`
+      );
+      if (!response.ok)
+        throw new Error("Failed to fetch quotation for editing.");
 
       const q = await response.json();
 
@@ -272,7 +319,8 @@ window.onload = async function () {
       document.getElementById("quotationNo").value = q.quotationNo || "";
       document.getElementById("date").value = q.date?.split("T")[0] || "";
       document.getElementById("enquiryNo").value = q.enquiryNo || "";
-      document.getElementById("enquiryDate").value = q.enquiryDate?.split("T")[0] || "";
+      document.getElementById("enquiryDate").value =
+        q.enquiryDate?.split("T")[0] || "";
       document.getElementById("tax").value = q.tax || "";
       document.getElementById("delivery").value = q.delivery || "";
       document.getElementById("payment").value = q.payment || "";

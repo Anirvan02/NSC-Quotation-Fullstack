@@ -15,6 +15,19 @@ public class NscController {
     @Autowired
     private NscRepository repository;
 
+    // Hardcoded passkey
+    private static final String PASSKEY = "nscqtn@2025";
+
+    // Passkey validation endpoint
+    @PostMapping("/passkey")
+    public Map<String, String> validatePasskey(@RequestParam String passkey) {
+        if (PASSKEY.equals(passkey)) {
+            return Map.of("message", "Passkey is valid");
+        } else {
+            return Map.of("message", "Incorrect passkey");
+        }
+    }
+
     // Create
     @PostMapping
     public Map<String, Object> createQuotation(@RequestBody Nsc quotation) {
