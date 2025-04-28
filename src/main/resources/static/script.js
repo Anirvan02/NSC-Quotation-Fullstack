@@ -1,5 +1,18 @@
 let currentEditIndex = null;
 
+function showToast(message, type = "success") {
+  const container = document.getElementById("toast-container");
+  const messageSpan = document.getElementById("toast-message");
+
+  const emoji = type === "success" ? "✅" : "❌";
+
+  messageSpan.textContent = `${emoji} ${message}`;
+  container.style.display = "block";
+}
+function hideToast() {
+  document.getElementById("toast-container").style.display = "none";
+}
+
 async function checkPasskey() {
   const key = document.getElementById("passkey").value;
 
@@ -17,11 +30,11 @@ async function checkPasskey() {
     if (response.ok && data.message === "Passkey is valid") {
       window.location.href = "select.html";
     } else {
-      alert("Incorrect passkey. Please try again.");
+      showToast("Incorrect passkey", "error");
     }
   } catch (err) {
     console.error("Error validating passkey:", err);
-    alert("There was an error while validating the passkey. Please try again.");
+    showToast("Error validating passkey", "error");
   }
 }
 
@@ -178,14 +191,15 @@ async function generateQuotation() {
     const data = await response.json();
     console.log("Quotation saved:", data);
 
-    alert(
+    showToast(
       editId
-        ? "Quotation updated successfully!"
-        : "Quotation saved to database successfully!"
+        ? "Quotation updated successfully"
+        : "Quotation saved successfully",
+      "success"
     );
   } catch (err) {
     console.error(err);
-    alert("Error saving quotation to the database.");
+    showToast("Error saving quotation", "error");
   }
 }
 
@@ -232,7 +246,7 @@ async function loadHistory() {
     }
   } catch (err) {
     console.error("Failed to load history:", err);
-    alert("Failed to load quotation history.");
+    showToast("Failed to load history", "error");
   }
 }
 
@@ -257,11 +271,11 @@ async function clearHistory() {
     );
 
     if (!response.ok) throw new Error("Failed to clear history");
-    alert("All quotations deleted successfully.");
+    showToast("Cleared history successfully", "success");
     loadHistory();
   } catch (err) {
     console.error("Error clearing history:", err);
-    alert("Failed to clear history.");
+    showToast("Failed to clear history.", "error");
   }
 }
 
@@ -279,11 +293,11 @@ async function deleteQuotation(id) {
       }
     );
     if (!response.ok) throw new Error("Failed to delete quotation");
-    alert("Quotation deleted successfully.");
+    showToast("Quotation deleted successfully", "success");
     loadHistory();
   } catch (err) {
     console.error("Error deleting quotation:", err);
-    alert("Failed to delete quotation.");
+    showToast("Failed to delete quotation.", "error");
   }
 }
 
@@ -336,7 +350,7 @@ window.onload = async function () {
       console.log("Loaded products:", q.products);
     } catch (err) {
       console.error("Failed to load quotation:", err);
-      alert("Failed to load quotation for editing.");
+      showToast("Failed to load quotation", "error");
     } finally {
       localStorage.removeItem("editQuotationId");
     }

@@ -42,7 +42,7 @@ textarea {
 }
 
 /* ========== BUTTONS ========== */
-button {
+.mainBtn {
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
@@ -55,13 +55,21 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+.mainBtn:hover {
   background-color: #0056b3;
 }
 
 .product-row button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 15px;
   background-color: #dc3545;
   color: white;
+  transition: background-color 0.3s ease;
 }
 
 .product-row button:hover {
@@ -184,7 +192,7 @@ button:hover {
 
   input,
   textarea,
-  button {
+  .mainBtn {
     width: 100%;
     font-size: 14px;
   }

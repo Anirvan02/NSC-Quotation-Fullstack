@@ -63,7 +63,7 @@
       }
 
       /* ===================== BUTTON ===================== */
-      button {
+      .enterBtn {
         background-color: #007bff;
         color: white;
         padding: 12px 20px;
@@ -75,7 +75,7 @@
         transition: background-color 0.3s ease;
       }
 
-      button:hover {
+      .enterBtn:hover {
         background-color: #0056b3;
       }
 
@@ -99,7 +99,7 @@
         }
 
         .password-wrapper input,
-        button {
+        .enterBtn {
           font-size: 14px;
         }
 
@@ -114,6 +114,48 @@
     </style>
   </head>
   <body>
+    <div
+      id="toast-container"
+      style="
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        width: 100%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: none;
+        text-align: center;
+      "
+    >
+      <div
+        id="custom-toast"
+        style="
+          background-color: #333;
+          color: #fff;
+          border-radius: 10px;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+          padding: 8px 16px;
+          font-size: 14px;
+          font-weight: bold;
+          display: inline-block;
+        "
+      >
+        <span id="toast-message">Toast Message</span>
+        <button
+          onclick="hideToast()"
+          style="
+            margin-left: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+          "
+        >
+          ✖
+        </button>
+      </div>
+    </div>
     <div class="access-container">
       <h2>NSC Quotation Portal</h2>
       <div class="password-wrapper">
@@ -121,7 +163,7 @@
         <span class="toggle-password" onclick="togglePassword()">👁️</span>
       </div>
 
-      <button onclick="checkPasskey()">Enter</button>
+      <button onclick="checkPasskey()" class="enterBtn">Enter</button>
       <div class="footer">Authorized personnel only</div>
     </div>
     <script src="script.js"></script>
