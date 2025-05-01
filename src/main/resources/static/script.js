@@ -18,7 +18,7 @@ async function checkPasskey() {
 
   try {
     const response = await fetch(
-      "http://localhost:8081/api/quotations/passkey?passkey=" +
+      "https://nscquotation.onrender.com/api/quotations/passkey?passkey=" +
         encodeURIComponent(key),
       {
         method: "POST",
@@ -175,8 +175,8 @@ async function generateQuotation() {
     const editId = window.currentEditId || null;
     const method = editId ? "PUT" : "POST";
     const url = editId
-      ? `http://localhost:8081/api/quotations/${editId}`
-      : `http://localhost:8081/api/quotations`;
+      ? `https://nscquotation.onrender.com/api/quotations/${editId}`
+      : `https://nscquotation.onrender.com/api/quotations`;
 
     const response = await fetch(url, {
       method,
@@ -209,7 +209,7 @@ async function loadHistory() {
 
   try {
     const response = await fetch(
-      "http://localhost:8081/api/quotations"
+      "https://nscquotation.onrender.com/api/quotations"
     );
     const history = await response.json();
 
@@ -264,7 +264,7 @@ async function clearHistory() {
 
   try {
     const response = await fetch(
-      "http://localhost:8081/api/quotations",
+      "https://nscquotation.onrender.com/api/quotations",
       {
         method: "DELETE",
       }
@@ -287,7 +287,7 @@ async function deleteQuotation(id) {
 
   try {
     const response = await fetch(
-      `http://localhost:8081/api/quotations/${id}`,
+      `https://nscquotation.onrender.com/api/quotations/${id}`,
       {
         method: "DELETE",
       }
@@ -322,7 +322,7 @@ window.onload = async function () {
   if (editId) {
     try {
       const response = await fetch(
-        `http://localhost:8081/api/quotations/${editId}`
+        `https://nscquotation.onrender.com/api/quotations/${editId}`
       );
       if (!response.ok)
         throw new Error("Failed to fetch quotation for editing.");
