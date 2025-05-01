@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "quotations")
-@Data // Lombok generates getters, setters, toString, equals, hashCode
+@Data
 public class Nsc {
 
     @Id
@@ -28,7 +28,8 @@ public class Nsc {
     private String validity;
     private String freight;
 
-    @Column(columnDefinition = "json")
+    // Change is here: columnDefinition = "TEXT"
+    @Column(columnDefinition = "TEXT")
     @Convert(converter = ProductListConverter.class)
     private List<Product> products;
 

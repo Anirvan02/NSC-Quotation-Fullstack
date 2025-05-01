@@ -15,6 +15,6 @@ public interface NscRepository extends JpaRepository<Nsc, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "ALTER TABLE quotations AUTO_INCREMENT = 1", nativeQuery = true)
+    @Query(value = "ALTER SEQUENCE quotations_id_seq RESTART WITH 1;", nativeQuery = true)
     void resetAutoIncrement();
 }
