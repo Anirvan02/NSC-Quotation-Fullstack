@@ -73,6 +73,13 @@ public class NscController {
             throw new NoSuchElementException("Quotation not found");
         }
         repository.deleteById(id);
+
+        // Check if table is now empty
+        if (repository.count() == 0) {
+            repository.resetAutoIncrement();
+            return Map.of("message", "Quotation deleted. All quotations cleared, ID reset to 1");
+        }
+
         return Map.of("message", "Quotation deleted");
     }
 

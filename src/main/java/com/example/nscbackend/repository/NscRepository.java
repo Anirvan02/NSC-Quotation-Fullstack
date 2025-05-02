@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface NscRepository extends JpaRepository<Nsc, Long> {
 
-
     List<Nsc> findAllByOrderByCreatedAtDesc();
 
     @Modifying
