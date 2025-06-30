@@ -71,8 +71,8 @@ function removeProduct(button) {
 function formatDateToDDMMYYYY(dateStr) {
   if (!dateStr) return "";
   const date = new Date(dateStr);
-  const dd = String(date.getDate()).padStart(2, "0");
-  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
   const yyyy = date.getFullYear();
   return `${dd}-${mm}-${yyyy}`;
 }
@@ -80,8 +80,10 @@ function formatDateToDDMMYYYY(dateStr) {
 async function generateQuotation() {
   const pd = document.getElementById("partyDetails").value;
   const qno = document.getElementById("quotationNo").value;
-  const rawDate = document.getElementById("date").value; // yyyy-MM-dd
+  const rawDate = document.getElementById("date").value;   
   const rawEDate = document.getElementById("enquiryDate").value;
+  const date = formatDateToDDMMYYYY(rawDate);
+  const edate = formatDateToDDMMYYYY(rawEDate); 
 
   const eno = document.getElementById("enquiryNo").value;
   const tax = document.getElementById("tax").value;
@@ -89,9 +91,6 @@ async function generateQuotation() {
   const payment = document.getElementById("payment").value;
   const validity = document.getElementById("validity").value;
   const freight = document.getElementById("freight").value;
-
-  const date = formatDateToDDMMYYYY(rawDate); // for preview
-  const edate = formatDateToDDMMYYYY(rawEDate); // for preview
 
   const productList = [];
   document.querySelectorAll(".product-row").forEach((row) => {
@@ -172,9 +171,9 @@ async function generateQuotation() {
   const newEntry = {
     partyDetails: pd,
     quotationNo: qno,
-    date: rawDate, // send in yyyy-MM-dd format ✅
+    date: date,              
     enquiryNo: eno,
-    enquiryDate: rawEDate, // send in yyyy-MM-dd format ✅
+    enquiryDate: edate,      
     tax,
     delivery,
     payment,
@@ -233,7 +232,7 @@ async function loadHistory() {
           <div class="entry-text">
             <strong>Quotation No:</strong> NSC/${
               entry.quotationNo
-            } | <strong>Date:</strong> ${formatDateToDDMMYYYY(entry.date)}
+            } | <strong>Date:</strong> ${entry.date?.split("T")[0] || ""}
           </div>
           <div class="button-group">
             <button class="editBtn" onclick="editQuotation('${
