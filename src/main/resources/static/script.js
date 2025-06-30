@@ -171,9 +171,9 @@ async function generateQuotation() {
   const newEntry = {
     partyDetails: pd,
     quotationNo: qno,
-    date: date,              
+    date: rawDate,              
     enquiryNo: eno,
-    enquiryDate: edate,      
+    enquiryDate: rawEDate,
     tax,
     delivery,
     payment,
@@ -232,7 +232,7 @@ async function loadHistory() {
           <div class="entry-text">
             <strong>Quotation No:</strong> NSC/${
               entry.quotationNo
-            } | <strong>Date:</strong> ${entry.date?.split("T")[0] || ""}
+            } | <strong>Date:</strong> ${formatDateToDDMMYYYY(entry.date)}
           </div>
           <div class="button-group">
             <button class="editBtn" onclick="editQuotation('${
