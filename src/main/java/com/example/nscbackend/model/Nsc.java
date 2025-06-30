@@ -5,6 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "quotations")
@@ -19,9 +20,15 @@ public class Nsc {
     private String partyDetails;
 
     private String quotationNo;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
+
     private String enquiryNo;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate enquiryDate;
+    
     private String tax;
     private String delivery;
     private String payment;
