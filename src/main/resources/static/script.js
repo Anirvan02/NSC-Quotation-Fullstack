@@ -22,7 +22,7 @@ async function checkPasskey() {
         encodeURIComponent(key),
       {
         method: "POST",
-      }
+      },
     );
 
     const data = await response.json();
@@ -63,16 +63,191 @@ function addProduct(product = {}) {
 function removeProduct(button) {
   const row = button.parentElement;
   const confirmRemove = confirm(
-    "Are you sure you want to remove this product?"
+    "Are you sure you want to remove this product?",
   );
   if (confirmRemove) row.remove();
+}
+
+function handleExcelImport(event) {
+  const file = event.target.files[0];
+
+  if (!file) {
+    showToast("No file selected", "error");
+    return;
+  }
+
+  // Check if XLSX library is available
+  if (typeof XLSX === "undefined") {
+    showToast(
+      "Excel library not loaded. Please try uploading a CSV file instead.",
+      "error",
+    );
+    event.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  const isCSV = file.name.toLowerCase().endsWith(".csv");
+
+  reader.onload = function (e) {
+    try {
+      let jsonData;
+
+      if (isCSV) {
+        // Handle CSV files
+        const text = e.target.result;
+        jsonData = parseCSV(text);
+      } else {
+        // Handle Excel files
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        jsonData = XLSX.utils.sheet_to_json(worksheet);
+      }
+
+      if (jsonData.length === 0) {
+        showToast("No data found in file", "error");
+        return;
+      }
+
+      // Clear existing products
+      const productsContainer = document.getElementById("products");
+      productsContainer.innerHTML = "";
+
+      // Expected headers (case-insensitive matching)
+      const headerMapping = {
+        productdescription: "desc",
+        "product description": "desc",
+        description: "desc",
+        product: "desc",
+        unit: "unit",
+        "gst%": "gst",
+        gst: "gst",
+        rate: "rate",
+        price: "rate",
+        brand: "brand",
+      };
+
+      // Process each row
+      let successCount = 0;
+      jsonData.forEach((row, index) => {
+        const product = {
+          desc: "",
+          unit: "",
+          gst: "",
+          rate: "",
+          brand: "",
+        };
+
+        // Map Excel columns to product fields
+        for (const [excelKey, value] of Object.entries(row)) {
+          const normalizedKey = excelKey.toLowerCase().trim();
+          const mappedField = headerMapping[normalizedKey];
+
+          if (mappedField && value !== undefined && value !== null) {
+            product[mappedField] = String(value).trim();
+          }
+        }
+
+        // Only add product if it has at least a description
+        if (product.desc) {
+          addProduct(product);
+          successCount++;
+        }
+      });
+
+      if (successCount > 0) {
+        showToast(
+          `Successfully imported ${successCount} product(s)!`,
+          "success",
+        );
+      } else {
+        showToast("No valid products found in file", "error");
+      }
+
+      // Reset file input
+      event.target.value = "";
+    } catch (error) {
+      console.error("Error parsing file:", error);
+      showToast(
+        "Error parsing file. Make sure it's a valid Excel or CSV file.",
+        "error",
+      );
+      event.target.value = "";
+    }
+  };
+
+  reader.onerror = function () {
+    showToast("Error reading file", "error");
+    event.target.value = "";
+  };
+
+  if (isCSV) {
+    reader.readAsText(file);
+  } else {
+    reader.readAsArrayBuffer(file);
+  }
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split("\n");
+  if (lines.length === 0) return [];
+
+  // Parse header
+  const header = parseCSVLine(lines[0]);
+
+  // Parse data rows
+  const jsonData = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (lines[i].trim() === "") continue; // Skip empty lines
+
+    const values = parseCSVLine(lines[i]);
+    const row = {};
+
+    header.forEach((key, index) => {
+      row[key] = values[index] || "";
+    });
+
+    jsonData.push(row);
+  }
+
+  return jsonData;
+}
+
+function parseCSVLine(line) {
+  const result = [];
+  let current = "";
+  let insideQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    const nextChar = line[i + 1];
+
+    if (char === '"') {
+      if (insideQuotes && nextChar === '"') {
+        current += '"';
+        i++;
+      } else {
+        insideQuotes = !insideQuotes;
+      }
+    } else if (char === "," && !insideQuotes) {
+      result.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  result.push(current.trim());
+  return result;
 }
 
 function formatDateToDDMMYYYY(dateStr) {
   if (!dateStr) return "";
   const date = new Date(dateStr);
-  const dd = String(date.getDate()).padStart(2, '0');
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
   const yyyy = date.getFullYear();
   return `${dd}-${mm}-${yyyy}`;
 }
@@ -80,10 +255,10 @@ function formatDateToDDMMYYYY(dateStr) {
 async function generateQuotation() {
   const pd = document.getElementById("partyDetails").value;
   const qno = document.getElementById("quotationNo").value;
-  const rawDate = document.getElementById("date").value;   
+  const rawDate = document.getElementById("date").value;
   const rawEDate = document.getElementById("enquiryDate").value;
   const date = formatDateToDDMMYYYY(rawDate);
-  const edate = formatDateToDDMMYYYY(rawEDate); 
+  const edate = formatDateToDDMMYYYY(rawEDate);
 
   const eno = document.getElementById("enquiryNo").value;
   const tax = document.getElementById("tax").value;
@@ -171,7 +346,7 @@ async function generateQuotation() {
   const newEntry = {
     partyDetails: pd,
     quotationNo: qno,
-    date: rawDate,              
+    date: rawDate,
     enquiryNo: eno,
     enquiryDate: rawEDate,
     tax,
@@ -206,7 +381,7 @@ async function generateQuotation() {
       editId
         ? "Quotation updated successfully"
         : "Quotation saved successfully",
-      "success"
+      "success",
     );
   } catch (err) {
     console.error(err);
@@ -220,7 +395,7 @@ async function loadHistory() {
 
   try {
     const response = await fetch(
-      "https://nscquotation.onrender.com/api/quotations"
+      "https://nscquotation.onrender.com/api/quotations",
     );
     const history = await response.json();
 
@@ -269,7 +444,7 @@ function editQuotation(id) {
 
 async function clearHistory() {
   const confirmClear = confirm(
-    "Are you sure you want to clear all quotation history?"
+    "Are you sure you want to clear all quotation history?",
   );
   if (!confirmClear) return;
 
@@ -278,7 +453,7 @@ async function clearHistory() {
       "https://nscquotation.onrender.com/api/quotations",
       {
         method: "DELETE",
-      }
+      },
     );
 
     if (!response.ok) throw new Error("Failed to clear history");
@@ -292,7 +467,7 @@ async function clearHistory() {
 
 async function deleteQuotation(id) {
   const confirmDelete = confirm(
-    "Are you sure you want to delete this quotation?"
+    "Are you sure you want to delete this quotation?",
   );
   if (!confirmDelete) return;
 
@@ -301,7 +476,7 @@ async function deleteQuotation(id) {
       `https://nscquotation.onrender.com/api/quotations/${id}`,
       {
         method: "DELETE",
-      }
+      },
     );
     if (!response.ok) throw new Error("Failed to delete quotation");
     showToast("Quotation deleted successfully", "success");
@@ -333,7 +508,7 @@ window.onload = async function () {
   if (editId) {
     try {
       const response = await fetch(
-        `https://nscquotation.onrender.com/api/quotations/${editId}`
+        `https://nscquotation.onrender.com/api/quotations/${editId}`,
       );
       if (!response.ok)
         throw new Error("Failed to fetch quotation for editing.");
