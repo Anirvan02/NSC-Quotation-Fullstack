@@ -199,6 +199,7 @@ textarea {
 
   .product-row input,
   .product-row button {
+    font-size: 14px;
     width: 100%;
   }
 
