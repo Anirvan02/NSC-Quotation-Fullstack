@@ -49,14 +49,7 @@
       </div>
     </div>
     <div class="input-section">
-      <h2>NSC Quotation Form</h2>
-      <button
-        onclick="document.getElementById('excelImport').click()"
-        class="mainBtn"
-        style="background-color: #4caf50; margin-bottom: 15px"
-      >
-        📥 Import Excel
-      </button>
+      <h2>NSC Quotation Form 📄</h2>
       <input
         type="file"
         id="excelImport"
@@ -80,8 +73,16 @@
       <label for="enquiryDate">Enquiry Date:</label>
       <input type="date" id="enquiryDate" />
 
+      <button
+        onclick="document.getElementById('excelImport').click()"
+        class="mainBtn"
+        style="background-color: #4caf50; margin-bottom: 15px"
+      >
+        📥 Import Excel
+      </button>
+
       <div id="products"></div>
-      <button onclick="addProduct()" class="mainBtn">Add Product</button
+      <button onclick="addProduct()" class="mainBtn">➕ Add Product</button
       ><br /><br />
 
       <input id="tax" placeholder="Tax" />
@@ -91,9 +92,9 @@
       <input id="freight" placeholder="Freight" />
 
       <button onclick="generateQuotation()" class="mainBtn">
-        Generate Quotation
+        ⏬ Generate Quotation
       </button>
-      <button onclick="downloadPDF()" class="mainBtn">Download PDF</button>
+      <button onclick="downloadPDF()" class="mainBtn">🗃️ Download PDF</button>
 
       <div id="quotationOutput" class="quotation-output"></div>
     </div>

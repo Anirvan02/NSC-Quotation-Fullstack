@@ -55,7 +55,7 @@ function addProduct(product = {}) {
     <input placeholder="GST%" value="${gst}" />
     <input placeholder="Rate" value="${rate}" />
     <input placeholder="Brand" value="${brand}" />
-    <button onclick="removeProduct(this)">Remove Product</button>
+    <button onclick="removeProduct(this)">➖ Remove Product</button>
   `;
   container.appendChild(row);
 }
@@ -159,7 +159,7 @@ function handleExcelImport(event) {
 
       if (successCount > 0) {
         showToast(
-          `Successfully imported ${successCount} product(s)!`,
+          `Successfully imported ${successCount} product(s)`,
           "success",
         );
       } else {
