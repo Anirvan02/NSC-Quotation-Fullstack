@@ -291,22 +291,32 @@ async function generateQuotation() {
 
   const quotationHTML = `
     <h2>QUOTATION</h2>
-    <h4 style="text-align: center; margin: 0; margin-top: 20px; font-size: 26px;">National Sales Corporation</h4>
-    <p style="text-align: center; margin-top: 5px;">
-      M.G.Road, Jaigaon, Dist. Alipurduar, West Bengal – 736182<br>
-      Telephone: 9733148724 / 03566264245 Email: nscindia2@gmail.com<br>
-      Supplier of All Type Industrial Accessories, Equipments & General Order Supplier<br>
-      GSTIN: 19ANLPP509P1Z0 | MSMED NO: UDYAM-WB-01-0013503
-    </p>
+    <div class="details-row">
+      <div class="left-details" style=" max-width: 600px;">
+        <h4 style="margin: 0; font-size: 22px; display: flex; align-items: center; gap: 5px; white-space: nowrap;">
+        <img src="NSC Logo-01.png" alt="NSC Logo" style="width: 35px; height: 35px;" />National Sales Corporation</h4>
+        <p style="line-height: 1.6; margin-top: 5px; width: 300px;">
+          M.G.Road, Jaigaon, Dist. Alipurduar,<br> West Bengal – 736182<br>
+          (Supplier of All Type Industrial Accessories, Equipments & General Order Supplier)
+        </p>
+      </div>
+      <div class="right-details" style="margin-top: 10px;">
+        <div>Telephone: 9733148724 / 03566264245</div>
+        <div>Email: nscindia2@gmail.com</div>
+        <div>GSTIN: 19ANLPP5090P1Z0</div>
+        <div>MSMED NO: UDYAM-WB-01-0013503</div>
+        <div>IEC: ANLPP5090P1Z</div>
+      </div>
+    </div>
     <div class="details-row">
       <div class="left-details">
         <div style="font-weight: bold; margin-bottom: 5px;">Party Details:</div>
         ${formattedPartyDetails}
       </div>
       <div class="right-details">
-        <div>Quotation No: NSC/${qno}</div>
-        <div>Dated: ${date}</div>
-        <div>Enquiry No: ${eno}</div>
+        <div>Quotation No.: NSC/${qno}</div>
+        <div>Quotation Date: ${date}</div>
+        <div>Enquiry No.: ${eno}</div>
         <div>Enquiry Date: ${edate}</div>
       </div>
     </div>
