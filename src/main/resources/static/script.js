@@ -148,28 +148,8 @@ function handleExcelImport(event) {
           const mappedField = headerMapping[normalizedKey];
 
           if (mappedField && value !== undefined && value !== null) {
-            let valStr = "";
-
-            // If value is a number (CSV parsing may give strings, but some Excel
-            // readers can return numbers) format rate/gst with two decimals to
-            // preserve decimal places. If value is already a formatted string
-            // (e.g. "100.00" or "100,00"), keep it as-is.
-            // Normalize and format numeric fields (rate, gst) to preserve decimals.
-            const rawStr = String(value).trim();
-            if (mappedField === "rate") {
-              // Support both dot and comma as decimal separators and ignore spaces
-              const normalized = rawStr.replace(/\s+/g, "").replace(/,/g, ".");
-              const num = Number(normalized);
-              if (!isNaN(num)) {
-                valStr = num.toFixed(2);
-              } else {
-                valStr = rawStr;
-              }
-            } else {
-              valStr = rawStr;
-            }
-
-            product[mappedField] = valStr;
+            // Keep the displayed Excel/CSV value, including decimal places.
+            product[mappedField] = String(value).trim();
           }
         }
 
