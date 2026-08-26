@@ -103,7 +103,9 @@ function handleExcelImport(event) {
         const workbook = XLSX.read(data, { type: "array" });
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
-        jsonData = XLSX.utils.sheet_to_json(worksheet);
+        // Use formatted output (raw: false) so numeric cells retain their displayed
+        // decimal places (e.g. 100.00) instead of being converted to plain numbers.
+        jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: "" });
       }
 
       if (jsonData.length === 0) {
@@ -146,7 +148,28 @@ function handleExcelImport(event) {
           const mappedField = headerMapping[normalizedKey];
 
           if (mappedField && value !== undefined && value !== null) {
-            product[mappedField] = String(value).trim();
+            let valStr = "";
+
+            // If value is a number (CSV parsing may give strings, but some Excel
+            // readers can return numbers) format rate/gst with two decimals to
+            // preserve decimal places. If value is already a formatted string
+            // (e.g. "100.00" or "100,00"), keep it as-is.
+            // Normalize and format numeric fields (rate, gst) to preserve decimals.
+            const rawStr = String(value).trim();
+            if (mappedField === "rate") {
+              // Support both dot and comma as decimal separators and ignore spaces
+              const normalized = rawStr.replace(/\s+/g, "").replace(/,/g, ".");
+              const num = Number(normalized);
+              if (!isNaN(num)) {
+                valStr = num.toFixed(2);
+              } else {
+                valStr = rawStr;
+              }
+            } else {
+              valStr = rawStr;
+            }
+
+            product[mappedField] = valStr;
           }
         }
 
