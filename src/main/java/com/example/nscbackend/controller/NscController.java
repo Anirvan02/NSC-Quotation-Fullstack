@@ -2,7 +2,6 @@ package com.example.nscbackend.controller;
 
 import com.example.nscbackend.model.Nsc;
 import com.example.nscbackend.repository.NscRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -12,8 +11,11 @@ import java.util.*;
 @CrossOrigin
 public class NscController {
 
-    @Autowired
-    private NscRepository repository;
+    private final NscRepository repository;
+
+    public NscController(NscRepository repository) {
+        this.repository = repository;
+    }
 
     // Hardcoded passkey
     private static final String PASSKEY = "nscqtn@2025";
